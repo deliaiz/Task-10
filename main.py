@@ -4,13 +4,11 @@ import math
 import os
 
 
-# --- 1. 数据读取与预处理 ---
+#  1. 数据读取与预处理
 def read_vrp_data(file_path):
-    """读取VRP数据，支持xlsx和txt格式"""
     if file_path.endswith('.xlsx'):
         data = pd.read_excel(file_path)
     else:
-        # 读取txt格式，跳过前面的车辆信息和空行
         data = pd.read_csv(file_path, sep=r'\s+', skiprows=6, engine='python')
     
     # 统一列名
@@ -18,7 +16,7 @@ def read_vrp_data(file_path):
     return data
 
 
-# --- 2. 核心求解类 ---
+# 2. 求解类 
 class CVRPTWSolver:
     def __init__(self, data, capacity):
         self.data = data
@@ -92,12 +90,12 @@ class CVRPTWSolver:
         return routes_with_details
 
 
-# --- 3. 执行与输出 ---
+# 3. 输出
 def main():
     # 参数设置
     MAX_VEHICLES = 10  # 最多车辆数
     VEHICLE_CAPACITY = 150  # 每辆车最大容积
-    SERVICE_TIME = 0  # 服务时间（数据中未提供，假设为0）
+    SERVICE_TIME = 0  # 服务时间（假设为0）
     
     # 数据文件路径（优先使用xlsx，如不存在则使用txt）
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -122,7 +120,7 @@ def main():
     solver = CVRPTWSolver(data, VEHICLE_CAPACITY)
     routes_with_details = solver.solve(max_vehicles=MAX_VEHICLES, service_time=SERVICE_TIME)
     
-    # 输出结果 - 按照题目要求的格式
+    # 输出结果
     print("\n" + "=" * 80)
     print("CVRPTW问题描述")
     print("=" * 80)
@@ -167,4 +165,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
